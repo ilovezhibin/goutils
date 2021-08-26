@@ -1,9 +1,39 @@
 package main
 
 import (
+	"crypto/md5"
 	"fmt"
 	"regexp"
+	"strings"
 )
+
+func GetMd5(s string) string {
+	data := []byte(s)
+	has := md5.Sum(data)
+	return fmt.Sprintf("%x", has)
+}
+
+func IsIpV6(s string) bool {
+	return IsMatchString(s, "^((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)::((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)$") || IsMatchString(s, "^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$")
+}
+
+func IsIpV4(s string) bool {
+	r, err := regexp.Compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$")
+	if err != nil {
+		fmt.Println("regext error", err)
+	}
+	return r.MatchString(s)
+}
+
+func IsMatchString(s string, expr string) bool {
+	r, _ := regexp.Compile(expr)
+	return r.MatchString(s)
+}
+
+func IsBlank(s string) bool {
+	s = strings.TrimSpace(s)
+	return s == ""
+}
 
 //判断给定的值，在不在后续给的数据里
 func ValueInList(value interface{}, list ...interface{}) bool {
