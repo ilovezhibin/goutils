@@ -13,18 +13,6 @@ func GetMd5(s string) string {
 	return fmt.Sprintf("%x", has)
 }
 
-func IsIpV6(s string) bool {
-	return IsMatchString(s, "^((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)::((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)$") || IsMatchString(s, "^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$")
-}
-
-func IsIpV4(s string) bool {
-	r, err := regexp.Compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$")
-	if err != nil {
-		fmt.Println("regext error", err)
-	}
-	return r.MatchString(s)
-}
-
 func IsMatchString(s string, expr string) bool {
 	r, _ := regexp.Compile(expr)
 	return r.MatchString(s)
